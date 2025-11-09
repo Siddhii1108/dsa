@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hackathon Registration Form</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f4f7f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    form {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      width: 420px;
+    }
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+      color: #333;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+    textarea {
+      resize: none;
+    }
+    .gender-group, .tech-group {
+      margin-top: 5px;
+    }
+    .gender-group label, .tech-group label {
+      margin-right: 10px;
+      font-weight: normal;
+    }
+    .error {
+      color: red;
+      font-size: 13px;
+    }
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 10px;
+      margin-top: 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <form id="hackathonForm" onsubmit="return validateForm()">
+    <h2>Hackathon Registration</h2>
+
+    <label>Full Name:</label>
+    <input type="text" id="fullname">
+    <span id="nameError" class="error"></span>
+
+    <label>Email ID:</label>
+    <input type="email" id="email">
+    <span id="emailError" class="error"></span>
+
+    <label>Password:</label>
+    <input type="password" id="password">
+
+    <label>Confirm Password:</label>
+    <input type="password" id="confirmPassword">
+    <span id="passwordError" class="error"></span>
+
+    <label>Gender:</label>
+    <div class="gender-group">
+      <label><input type="radio" name="gender" value="Male"> Male</label>
+      <label><input type="radio" name="gender" value="Female"> Female</label>
+      <label><input type="radio" name="gender" value="Other"> Other</label>
+    </div>
+
+    <label>Date of Birth:</label>
+    <input type="date" id="dob">
+
+    <label>Phone Number:</label>
+    <input type="text" id="phone">
+    <span id="phoneError" class="error"></span>
+
+    <label>Address:</label>
+    <textarea id="address" rows="3"></textarea>
+
+    <label>Course / Year of Study:</label>
+    <select id="course">
+      <option value="">--Select--</option>
+      <option>B.Tech I Year</option>
+      <option>B.Tech II Year</option>
+      <option>B.Tech III Year</option>
+      <option>B.Tech IV Year</option>
+    </select>
+
+    <label>Technology Opted for Hackathon:</label>
+    <div class="tech-group">
+      <label><input type="checkbox" name="tech" value="AI/ML"> AI/ML</label>
+      <label><input type="checkbox" name="tech" value="Web Development"> Web Development</label>
+      <label><input type="checkbox" name="tech" value="Cloud Computing"> Cloud Computing</label>
+      <label><input type="checkbox" name="tech" value="Cybersecurity"> Cybersecurity</label>
+      <label><input type="checkbox" name="tech" value="IoT"> IoT</label>
+      <label><input type="checkbox" name="tech" value="Blockchain"> Blockchain</label>
+    </div>
+    <span id="techError" class="error"></span>
+
+    <button type="submit">Register</button>
+  </form>
+
+  <script>
+    function validateForm() {
+      let valid = true;
+
+      document.querySelectorAll(".error").forEach(e => e.innerText = "");
+
+      let name = document.getElementById("fullname").value.trim();
+      let email = document.getElementById("email").value.trim();
+      let password = document.getElementById("password").value;
+      let confirmPassword = document.getElementById("confirmPassword").value;
+      let phone = document.getElementById("phone").value.trim();
+      let tech = document.querySelectorAll('input[name="tech"]:checked');
+
+      if (name === "") {
+        document.getElementById("nameError").innerText = "Full Name is required.";
+        valid = false;
+      }
+
+      let emailPattern = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+      if (!emailPattern.test(email)) {
+        document.getElementById("emailError").innerText = "Invalid Email ID.";
+        valid = false;
+      }
+
+      if (password.length < 6) {
+        document.getElementById("passwordError").innerText = "Password must be at least 6 characters.";
+        valid = false;
+      } else if (password !== confirmPassword) {
+        document.getElementById("passwordError").innerText = "Passwords do not match.";
+        valid = false;
+      }
+
+      if (!/^\\d{10}$/.test(phone)) {
+        document.getElementById("phoneError").innerText = "Phone number must be 10 digits.";
+        valid = false;
+      }
+
+      if (tech.length === 0) {
+        document.getElementById("techError").innerText = "Select at least one technology.";
+        valid = false;
+      }
+
+      if (!valid) return false;
+
+      alert("Hackathon Registration Successful! Thank you for registering.");
+      return true;
+    }
+  </script>
+</body>
+</html>
